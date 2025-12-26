@@ -1,0 +1,59 @@
+# ============================================================================
+# Security Account - Terraform Variables
+# ============================================================================
+# Copy this file to terraform.tfvars and update with your actual values
+# ============================================================================
+
+aws_region = "us-east-1"
+
+# Account IDs - UPDATE THESE WITH YOUR ACTUAL ACCOUNT IDS
+security_account_id  = "111111111111"  # Replace with actual Security account ID
+management_account_id = "222222222222"  # Replace with actual Management account ID
+
+# List of all member account IDs for cross-account access
+member_account_ids = [
+  "333333333333",  # Production-Apps
+  "444444444444",  # Production-Data
+  "555555555555",  # NonProd-Apps
+  "666666666666",  # NonProd-Data
+  "777777777777",  # Shared-Services
+  "888888888888",  # Logging
+]
+
+# S3 bucket prefix (must be globally unique)
+bucket_prefix = "myapp-security-12345"  # Add random suffix for uniqueness
+
+# Security alert email addresses
+security_alert_emails = [
+  "security-team@mycompany.com",
+  "ops-team@mycompany.com"
+]
+
+# External IDs for cross-account roles (generate unique values)
+# Use: openssl rand -base64 32
+cloudwatch_external_id        = "change-me-cloudwatch-logs"
+security_readonly_external_id = "change-me-security-readonly"
+security_admin_external_id    = "change-me-security-admin"
+
+# AWS Config settings
+config_snapshot_frequency = "TwentyFour_Hours"
+
+# GuardDuty settings
+guardduty_finding_frequency             = "FIFTEEN_MINUTES"
+enable_guardduty_s3_protection         = true
+enable_guardduty_kubernetes_protection = true
+enable_guardduty_malware_protection    = true
+
+# CloudTrail retention
+cloudtrail_log_retention_days = 2555  # 7 years
+
+# IAM Access Analyzer
+enable_access_analyzer = true
+
+# Additional tags
+tags = {
+  Project     = "MyApp"
+  Owner       = "Security Team"
+  Compliance  = "SOC2"
+  DataClass   = "Confidential"
+}

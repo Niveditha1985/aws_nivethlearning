@@ -1,0 +1,58 @@
+# ============================================================================
+# Logging Account - Terraform Variables
+# ============================================================================
+# Copy this file to terraform.tfvars and update with your actual values
+# ============================================================================
+
+aws_region = "us-east-1"
+
+# Account IDs - UPDATE THESE WITH YOUR ACTUAL ACCOUNT IDS
+logging_account_id    = "888888888888"  # Replace with actual Logging account ID
+management_account_id = "222222222222"  # Replace with actual Management account ID
+
+# List of all member account IDs that will send logs
+member_account_ids = [
+  "111111111111",  # Security
+  "333333333333",  # Production-Apps
+  "444444444444",  # Production-Data
+  "555555555555",  # NonProd-Apps
+  "666666666666",  # NonProd-Data
+  "777777777777",  # Shared-Services
+]
+
+# S3 bucket prefix (must be globally unique)
+bucket_prefix = "myapp-logging-12345"  # Add random suffix for uniqueness
+
+# CloudWatch Logs retention periods
+production_log_retention_days    = 365  # 1 year
+nonproduction_log_retention_days = 90   # 3 months
+
+# External IDs for cross-account roles (generate unique values)
+# Use: openssl rand -base64 32
+cross_account_external_id = "change-me-cloudwatch-logs"
+analytics_external_id     = "change-me-log-analytics"
+
+# Kinesis Firehose configuration
+enable_cloudwatch_to_s3_export   = true
+firehose_buffer_size_mb          = 5
+firehose_buffer_interval_seconds = 300
+
+# S3 lifecycle configuration
+s3_archive_glacier_transition_days      = 90
+s3_archive_deep_archive_transition_days = 365
+s3_archive_expiration_days              = 2555  # 7 years
+
+# VPC Flow Logs and ALB logs retention
+vpc_flowlog_retention_days = 730  # 2 years
+alb_log_retention_days     = 90   # 3 months
+
+# Encryption
+enable_log_encryption = true
+
+# Additional tags
+tags = {
+  Project    = "MyApp"
+  Owner      = "Operations Team"
+  CostCenter = "logging-operations"
+  DataClass  = "Logs"
+}

@@ -1,0 +1,67 @@
+# Terraform Variables for Bootstrap
+# Copy this file to terraform.tfvars and update with your values
+
+# AWS Region (can be changed to your preferred region)
+aws_region = "us-east-1"
+
+# Organization Settings
+organization_name = "MyApp"
+project_name      = "myapp"
+
+# Account Email Addresses
+# IMPORTANT: Update these with your actual email addresses
+# Using Gmail+ approach: yourname+suffix@gmail.com
+
+management_account_email      = "yourname+aws-management@gmail.com"
+security_account_email        = "yourname+aws-security@gmail.com"
+shared_services_account_email = "yourname+aws-shared-services@gmail.com"
+prod_apps_account_email       = "yourname+aws-prod-apps@gmail.com"
+prod_data_account_email       = "yourname+aws-prod-data@gmail.com"
+nonprod_apps_account_email    = "yourname+aws-nonprod-apps@gmail.com"
+nonprod_data_account_email    = "yourname+aws-nonprod-data@gmail.com"
+logging_account_email         = "yourname+aws-logging@gmail.com"
+
+# Budget Alert (in USD)
+monthly_budget_limit = 3000
+
+# ============================================================================
+# Cost Control Toggles (Set to false to save money during testing)
+# ============================================================================
+
+# AWS Config (saves ~$9/month when disabled)
+# Recommended: false during development, true for production
+enable_aws_config = false
+
+# CloudTrail (saves ~$0.25/month, but NOT recommended to disable)
+# Recommended: always true (critical for security audit)
+enable_cloudtrail = true
+
+# SCPs (FREE, always keep enabled)
+# Recommended: always true (protects your accounts)
+enable_scps = true
+
+# Budget Alerts (FREE)
+# Recommended: always true (helps monitor costs)
+enable_budgets = true
+
+# Individual Config Rules (only apply if enable_aws_config = true)
+# Set to false during development to save ~$1/rule/month
+enable_config_rule_encrypted_volumes    = false
+enable_config_rule_rds_encryption       = false
+enable_config_rule_s3_public_access     = false
+enable_config_rule_required_tags        = false
+enable_config_rule_iam_password_policy  = false
+
+# NOTE: When ready for production (2 weeks before launch):
+# 1. Set enable_aws_config = true
+# 2. Set all config rules = true
+# 3. Run: terraform apply
+# This enables full compliance monitoring
+
+# Common Tags
+common_tags = {
+  Project    = "myapp"
+  ManagedBy  = "terraform"
+  Team       = "devops"
+  CostCenter = "engineering-ops"
+}
