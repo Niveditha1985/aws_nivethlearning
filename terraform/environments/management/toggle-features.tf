@@ -9,11 +9,11 @@ variable "enable_aws_config" {
   default     = false  # Set to true when ready for production
 }
 
-# Toggle for CloudTrail (saves ~$0.25/month when disabled, but NOT RECOMMENDED)
+# Toggle for CloudTrail (saves ~$0.25/month when disabled, but NOT RECOMMENDED for production)
 variable "enable_cloudtrail" {
-  description = "Enable organization-wide CloudTrail"
+  description = "Enable organization-wide CloudTrail (disable during dev/test to save costs)"
   type        = bool
-  default     = true  # Always keep enabled for security audit
+  default     = false  # Set to true for production (critical for security audit)
 }
 
 # Toggle for AWS Budgets (free, but can disable email spam during testing)

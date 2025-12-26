@@ -78,3 +78,17 @@ variable "common_tags" {
     CostCenter = "engineering-ops"
   }
 }
+
+# ============================================================================
+# CloudTrail Configuration (Centralized in Security Account)
+# ============================================================================
+
+variable "cloudtrail_bucket_name" {
+  description = "Name of the S3 bucket for CloudTrail logs (created in Security account)"
+  type        = string
+}
+
+variable "cloudtrail_kms_key_arn" {
+  description = "ARN of the KMS key for CloudTrail encryption (from Security account)"
+  type        = string
+}

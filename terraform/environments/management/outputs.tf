@@ -88,39 +88,20 @@ output "nonprod_data_account_id" {
 # ============================================================================
 # S3 Buckets
 # ============================================================================
-
-output "cloudtrail_bucket_name" {
-  description = "CloudTrail S3 bucket name"
-  value       = aws_s3_bucket.cloudtrail.id
-}
-
-output "cloudtrail_bucket_arn" {
-  description = "CloudTrail S3 bucket ARN"
-  value       = aws_s3_bucket.cloudtrail.arn
-}
-
-output "config_bucket_name" {
-  description = "Config S3 bucket name"
-  value       = aws_s3_bucket.config.id
-}
-
-output "config_bucket_arn" {
-  description = "Config S3 bucket ARN"
-  value       = aws_s3_bucket.config.arn
-}
+# Note: CloudTrail and Config S3 buckets are now in Security account
 
 # ============================================================================
 # CloudTrail
 # ============================================================================
 
 output "cloudtrail_name" {
-  description = "CloudTrail name"
-  value       = aws_cloudtrail.organization.name
+  description = "CloudTrail name (null if disabled)"
+  value       = var.enable_cloudtrail ? aws_cloudtrail.organization[0].name : null
 }
 
 output "cloudtrail_arn" {
-  description = "CloudTrail ARN"
-  value       = aws_cloudtrail.organization.arn
+  description = "CloudTrail ARN (null if disabled)"
+  value       = var.enable_cloudtrail ? aws_cloudtrail.organization[0].arn : null
 }
 
 # ============================================================================
