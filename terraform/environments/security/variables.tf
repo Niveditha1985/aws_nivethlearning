@@ -65,11 +65,21 @@ variable "security_admin_external_id" {
   sensitive   = true
 }
 
+# ============================================================================
+# AWS Config Settings
+# ============================================================================
+
+variable "enable_aws_config" {
+  description = "Enable AWS Config for compliance monitoring (disable during dev/test to save costs)"
+  type        = bool
+  default     = false
+}
+
 variable "config_snapshot_frequency" {
   description = "Delivery frequency for AWS Config snapshots"
   type        = string
   default     = "TwentyFour_Hours"
-  
+
   validation {
     condition = contains([
       "One_Hour",
@@ -81,6 +91,47 @@ variable "config_snapshot_frequency" {
     error_message = "Config snapshot frequency must be a valid value."
   }
 }
+
+# Individual Config Rule Toggles (for fine-grained cost control)
+variable "enable_config_rule_encrypted_volumes" {
+  description = "Enable Config rule to check for encrypted EBS volumes"
+  type        = bool
+  default     = true
+}
+
+variable "enable_config_rule_rds_encryption" {
+  description = "Enable Config rule to check for encrypted RDS instances"
+  type        = bool
+  default     = true
+}
+
+variable "enable_config_rule_s3_public_read" {
+  description = "Enable Config rule to prevent S3 public read access"
+  type        = bool
+  default     = true
+}
+
+variable "enable_config_rule_s3_public_write" {
+  description = "Enable Config rule to prevent S3 public write access"
+  type        = bool
+  default     = true
+}
+
+variable "enable_config_rule_required_tags" {
+  description = "Enable Config rule to enforce required tags"
+  type        = bool
+  default     = true
+}
+
+variable "enable_config_rule_iam_password_policy" {
+  description = "Enable Config rule to check IAM password policy compliance"
+  type        = bool
+  default     = true
+}
+
+# ============================================================================
+# GuardDuty Settings
+# ============================================================================
 
 variable "guardduty_finding_frequency" {
   description = "Frequency to publish GuardDuty findings"

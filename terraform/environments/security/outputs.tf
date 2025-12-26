@@ -85,13 +85,13 @@ output "securityhub_account_id" {
 }
 
 output "config_recorder_name" {
-  description = "Name of the AWS Config recorder"
-  value       = aws_config_configuration_recorder.main.name
+  description = "Name of the AWS Config recorder (null if disabled)"
+  value       = var.enable_aws_config ? aws_config_configuration_recorder.main[0].name : null
 }
 
 output "config_aggregator_arn" {
-  description = "ARN of the AWS Config aggregator"
-  value       = aws_config_configuration_aggregator.organization.arn
+  description = "ARN of the AWS Config aggregator (null if disabled)"
+  value       = var.enable_aws_config ? aws_config_configuration_aggregator.organization[0].arn : null
 }
 
 output "access_analyzer_arn" {
@@ -161,13 +161,13 @@ output "securityhub_event_rule_arn" {
 # ============================================================================
 
 output "config_rules" {
-  description = "Map of AWS Config rule names and ARNs"
+  description = "Map of AWS Config rule names and ARNs (empty if Config disabled or rules disabled)"
   value = {
-    encrypted_volumes                  = aws_config_config_rule.encrypted_volumes.arn
-    rds_encryption_enabled            = aws_config_config_rule.rds_encryption_enabled.arn
-    s3_bucket_public_read_prohibited  = aws_config_config_rule.s3_bucket_public_read_prohibited.arn
-    s3_bucket_public_write_prohibited = aws_config_config_rule.s3_bucket_public_write_prohibited.arn
-    required_tags                     = aws_config_config_rule.required_tags.arn
-    iam_password_policy               = aws_config_config_rule.iam_password_policy.arn
+    encrypted_volumes = var.enable_aws_config && var.enable_config_rule_encrypted_volumes ? aws_config_config_rule.encrypted_volumes[0].arn : null
+    rds_encryption_enabled = var.enable_aws_config && var.enable_config_rule_rds_encryption ? aws_config_config_rule.rds_encryption_enabled[0].arn : null
+    s3_bucket_public_read_prohibited = var.enable_aws_config && var.enable_config_rule_s3_public_read ? aws_config_config_rule.s3_bucket_public_read_prohibited[0].arn : null
+    s3_bucket_public_write_prohibited = var.enable_aws_config && var.enable_config_rule_s3_public_write ? aws_config_config_rule.s3_bucket_public_write_prohibited[0].arn : null
+    required_tags = var.enable_aws_config && var.enable_config_rule_required_tags ? aws_config_config_rule.required_tags[0].arn : null
+    iam_password_policy = var.enable_aws_config && var.enable_config_rule_iam_password_policy ? aws_config_config_rule.iam_password_policy[0].arn : null
   }
 }
